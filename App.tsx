@@ -10,6 +10,8 @@ import {
 import AppLoading from 'expo-app-loading';
 import { NavigationContainer } from '@react-navigation/native';
 import 'react-native-gesture-handler';
+import 'intl';
+import 'intl/locale-data/jsonp/pt-BR';
 
 import { AppRoutes } from './src/routes/app.routes';
 import theme from './src/global/styles/theme';

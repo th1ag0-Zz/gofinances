@@ -57,7 +57,7 @@ export const CategorySelect: React.FC<Props> = ({
       />
 
       <Footer>
-        <Button onPress={closeSelectCategory} title="Selecionar" />
+        <Button onPress={() => closeSelectCategory()} title="Selecionar" />
       </Footer>
     </Container>
   );
