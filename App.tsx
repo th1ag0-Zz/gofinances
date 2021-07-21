@@ -8,8 +8,10 @@ import {
   Poppins_700Bold,
 } from '@expo-google-fonts/poppins';
 import AppLoading from 'expo-app-loading';
+import { NavigationContainer } from '@react-navigation/native';
+import 'react-native-gesture-handler';
 
-import { Register } from './src/screens/Register';
+import { AppRoutes } from './src/routes/app.routes';
 import theme from './src/global/styles/theme';
 
 export default function App() {
@@ -30,7 +32,9 @@ export default function App() {
         translucent
         backgroundColor="#5636D3"
       /> */}
-      <Register />
+      <NavigationContainer>
+        <AppRoutes />
+      </NavigationContainer>
     </ThemeProvider>
   );
 }
