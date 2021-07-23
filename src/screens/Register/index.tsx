@@ -54,7 +54,7 @@ export const Register: React.FC = () => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
 
-  function handleTransactionTypeSelect(type: 'up' | 'down') {
+  function handleTransactionTypeSelect(type: 'positive' | 'negative') {
     setTransactionType(type);
   }
 
@@ -133,16 +133,16 @@ export const Register: React.FC = () => {
 
             <TransactionsTypes>
               <TransactionTypeButton
-                onPress={() => handleTransactionTypeSelect('up')}
-                type="up"
+                onPress={() => handleTransactionTypeSelect('positive')}
+                type="positive"
                 title="Income"
-                isActive={transactionType === 'up'}
+                isActive={transactionType === 'positive'}
               />
               <TransactionTypeButton
-                onPress={() => handleTransactionTypeSelect('down')}
-                type="down"
+                onPress={() => handleTransactionTypeSelect('negative')}
+                type="negative"
                 title="Outcome"
-                isActive={transactionType === 'down'}
+                isActive={transactionType === 'negative'}
               />
             </TransactionsTypes>
 
