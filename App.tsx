@@ -14,6 +14,8 @@ import 'intl';
 import 'intl/locale-data/jsonp/pt-BR';
 
 import { AppRoutes } from './src/routes/app.routes';
+import { SignIn } from './src/screens/SignIn';
+
 import theme from './src/global/styles/theme';
 
 export default function App() {
@@ -29,13 +31,13 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      {/* <StatusBar
+      <StatusBar
         barStyle="light-content"
         translucent
         backgroundColor="#5636D3"
-      /> */}
+      />
       <NavigationContainer>
-        <AppRoutes />
+        <SignIn />
       </NavigationContainer>
     </ThemeProvider>
   );
