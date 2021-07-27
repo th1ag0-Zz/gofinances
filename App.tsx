@@ -13,6 +13,7 @@ import 'react-native-gesture-handler';
 import 'intl';
 import 'intl/locale-data/jsonp/pt-BR';
 
+import { AuthProvider } from './src/hooks/useAuth';
 import { AppRoutes } from './src/routes/app.routes';
 import { SignIn } from './src/screens/SignIn';
 
@@ -37,7 +38,9 @@ export default function App() {
         backgroundColor="#5636D3"
       />
       <NavigationContainer>
-        <SignIn />
+        <AuthProvider>
+          <SignIn />
+        </AuthProvider>
       </NavigationContainer>
     </ThemeProvider>
   );
