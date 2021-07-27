@@ -5,6 +5,8 @@ import AppeSvg from '../../assets/apple.svg';
 import GoogleSvg from '../../assets/google.svg';
 import LogoSvg from '../../assets/logo.svg';
 
+import { SignInSocialButton } from '../../components/SignInSocialButton';
+
 import {
   Container,
   Header,
@@ -12,6 +14,7 @@ import {
   Title,
   SignInTitle,
   Footer,
+  FooterWraper,
 } from './styles';
 
 export const SignIn: React.FC = () => {
@@ -27,7 +30,12 @@ export const SignIn: React.FC = () => {
         <SignInTitle>{'Faça seu login com\numa das contas abaixo'}</SignInTitle>
       </Header>
 
-      <Footer></Footer>
+      <Footer>
+        <FooterWraper>
+          <SignInSocialButton svg={GoogleSvg} title="Entrar com Google" />
+          <SignInSocialButton svg={AppeSvg} title="Entrar com Apple" />
+        </FooterWraper>
+      </Footer>
     </Container>
   );
 };
