@@ -8,14 +8,13 @@ import {
   Poppins_700Bold,
 } from '@expo-google-fonts/poppins';
 import AppLoading from 'expo-app-loading';
-import { NavigationContainer } from '@react-navigation/native';
+
 import 'react-native-gesture-handler';
 import 'intl';
 import 'intl/locale-data/jsonp/pt-BR';
 
 import { AuthProvider } from './src/hooks/useAuth';
-import { AppRoutes } from './src/routes/app.routes';
-import { SignIn } from './src/screens/SignIn';
+import { Routes } from './src/routes';
 
 import theme from './src/global/styles/theme';
 
@@ -37,11 +36,9 @@ export default function App() {
         translucent
         backgroundColor="#5636D3"
       />
-      <NavigationContainer>
-        <AuthProvider>
-          <SignIn />
-        </AuthProvider>
-      </NavigationContainer>
+      <AuthProvider>
+        <Routes />
+      </AuthProvider>
     </ThemeProvider>
   );
 }

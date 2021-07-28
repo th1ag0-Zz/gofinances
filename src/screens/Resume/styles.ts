@@ -24,7 +24,7 @@ export const Title = styled.Text`
 `;
 
 export const Content = styled.ScrollView.attrs({
-  contentContainerStyle: { paddingHorizontal: 24 },
+  contentContainerStyle: { paddingHorizontal: 24, paddingBottom: 10 },
   showsVerticalScrollIndicator: false,
 })``;
 
