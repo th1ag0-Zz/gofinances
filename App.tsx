@@ -13,7 +13,7 @@ import 'react-native-gesture-handler';
 import 'intl';
 import 'intl/locale-data/jsonp/pt-BR';
 
-import { AuthProvider } from './src/hooks/useAuth';
+import { AuthProvider, useAuth } from './src/hooks/useAuth';
 import { Routes } from './src/routes';
 
 import theme from './src/global/styles/theme';
@@ -25,7 +25,9 @@ export default function App() {
     Poppins_700Bold,
   });
 
-  if (!fontsLoaded) {
+  const { isLoadingUserData } = useAuth();
+
+  if (!fontsLoaded || isLoadingUserData) {
     return <AppLoading />;
   }
 

@@ -26,6 +26,7 @@ import {
   TransactionCard,
   TransactionCardProps,
 } from '../../components/TransactionCard';
+import { useAuth } from '../../hooks/useAuth';
 
 export interface DataListProps extends TransactionCardProps {
   id: string;
@@ -43,6 +44,8 @@ interface HighlightData {
 }
 
 export const Dashboard: React.FC = () => {
+  const { signOut, user } = useAuth();
+
   const [isLoading, setIsLoading] = useState(true);
   const [transactions, setTransactions] = useState<DataListProps[]>([]);
   const [highlightData, setHighlightData] = useState<HighlightData>(
@@ -55,12 +58,20 @@ export const Dashboard: React.FC = () => {
     collection: DataListProps[],
     type: 'positive' | 'negative',
   ) {
+    const collectionFilttered = collection.filter(
+      transaction => transaction.type === type,
+    );
+
+    if (collectionFilttered.length === 0) {
+      return 0;
+    }
+
     const lastTransaction = new Date(
       Math.max.apply(
         Math,
-        collection
-          .filter(transaction => transaction.type === type)
-          .map(transaction => new Date(transaction.date).getTime()),
+        collectionFilttered.map(transaction =>
+          new Date(transaction.date).getTime(),
+        ),
       ),
     );
 
@@ -71,7 +82,7 @@ export const Dashboard: React.FC = () => {
   }
 
   async function loadTransactions() {
-    const dataKey = '@gofinances:transactions';
+    const dataKey = `@gofinances:transactions_user:${user.id}`;
     const storage = await AsyncStorage.getItem(dataKey);
     const parsedData = storage ? JSON.parse(storage) : [];
 
@@ -117,7 +128,10 @@ export const Dashboard: React.FC = () => {
       'negative',
     );
 
-    const totalInterval = `01 a ${lastTransactionEntries}`;
+    const totalInterval =
+      lastTransactionExpensives === 0
+        ? 'Não há transações'
+        : `01 a ${lastTransactionEntries}`;
 
     const total = entriesTotal - expensiveTotal;
 
@@ -127,14 +141,20 @@ export const Dashboard: React.FC = () => {
           style: 'currency',
           currency: 'BRL',
         }),
-        lastTransaction: lastTransactionEntries,
+        lastTransaction:
+          lastTransactionEntries === 0
+            ? 'Não há transações'
+            : `Útima entrada dia ${lastTransactionEntries}`,
       },
       expensives: {
         amount: expensiveTotal.toLocaleString('pt-BR', {
           style: 'currency',
           currency: 'BRL',
         }),
-        lastTransaction: lastTransactionExpensives,
+        lastTransaction:
+          lastTransactionExpensives === 0
+            ? 'Não há transações'
+            : `Útima saída dia ${lastTransactionExpensives}`,
       },
       total: {
         amount: total.toLocaleString('pt-BR', {
@@ -175,15 +195,15 @@ export const Dashboard: React.FC = () => {
           <Header>
             <UserWrapper>
               <UserInfo>
-                <Photo source={{ uri: 'https://github.com/th1ag0-Zz.png' }} />
+                <Photo source={{ uri: user.photo }} />
 
                 <User>
                   <UserGreeting>Olá,</UserGreeting>
-                  <UserName>Thiago</UserName>
+                  <UserName>{user.name}</UserName>
                 </User>
               </UserInfo>
 
-              <LogoutButton onPress={() => {}}>
+              <LogoutButton onPress={signOut}>
                 <Icon name="power" />
               </LogoutButton>
             </UserWrapper>
@@ -194,13 +214,13 @@ export const Dashboard: React.FC = () => {
               type="up"
               title="Entradas"
               amount={highlightData.entries.amount}
-              lastTransaction={`Útima entrada dia ${highlightData.entries.lastTransaction}`}
+              lastTransaction={highlightData.entries.lastTransaction}
             />
             <HighlightCard
               type="down"
               title="Saídas"
               amount={highlightData.expensives.amount}
-              lastTransaction={`Útima saída dia ${highlightData.expensives.lastTransaction}`}
+              lastTransaction={highlightData.expensives.lastTransaction}
             />
             <HighlightCard
               type="total"

@@ -24,6 +24,8 @@ import {
 import { categories } from '../../utils/categories';
 import { useFocusEffect } from '@react-navigation/core';
 
+import { useAuth } from '../../hooks/useAuth';
+
 interface TransactionData {
   type: 'positive' | 'negative';
   name: string;
@@ -43,6 +45,7 @@ interface CategoryData {
 
 export const Resume: React.FC = () => {
   const { colors } = useTheme();
+  const { user } = useAuth();
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [isLoading, setIsloading] = useState(false);
 
@@ -63,7 +66,7 @@ export const Resume: React.FC = () => {
   async function loadData() {
     setIsloading(true);
     try {
-      const dataKey = '@gofinances:transactions';
+      const dataKey = `@gofinances:transactions_user:${user.id}`;
       const response = await AsyncStorage.getItem(dataKey);
       const responseFormated = response ? JSON.parse(response) : [];
 

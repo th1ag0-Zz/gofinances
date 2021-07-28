@@ -27,6 +27,8 @@ interface AuthContextData {
   user: User;
   signInWithGoogle: () => Promise<void>;
   signInWithApple: () => Promise<void>;
+  signOut: () => Promise<void>;
+  isLoadingUserData: boolean;
 }
 
 interface AuthorizationResponse {
@@ -40,6 +42,7 @@ export const AuthContext = createContext({} as AuthContextData);
 
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User>({} as User);
+  const [isLoadingUserData, setIsLoadingUserData] = useState(true);
 
   async function signInWithGoogle() {
     try {
@@ -105,19 +108,33 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   }
 
+  async function signOut() {
+    setUser({} as User);
+    await AsyncStorage.removeItem('@gofinances:user');
+  }
+
   useEffect(() => {
     async function loadUserStorageData() {
       const data = await AsyncStorage.getItem('@gofinances:user');
       const parsedData = data ? (JSON.parse(data) as User) : ({} as User);
 
       setUser(parsedData);
+      setIsLoadingUserData(false);
     }
 
     loadUserStorageData();
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, signInWithGoogle, signInWithApple }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        signInWithGoogle,
+        signInWithApple,
+        signOut,
+        isLoadingUserData,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
