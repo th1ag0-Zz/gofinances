@@ -75,7 +75,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         );
       }
     } catch (error) {
-      throw new Error(error);
+      throw new Error('error');
     }
   }
 
@@ -104,7 +104,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         );
       }
     } catch (error) {
-      throw new Error(error);
+      throw new Error('error');
     }
   }
 
