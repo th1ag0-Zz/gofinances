@@ -48,7 +48,7 @@ export const Register: React.FC = () => {
 
   const [categoryModalOpen, setCategoryModalOpen] = useState(false);
 
-  const { navigate } = useNavigation();
+  const navigation = useNavigation();
 
   const {
     control,
@@ -102,7 +102,7 @@ export const Register: React.FC = () => {
         name: 'Categoria',
       });
 
-      navigate('Listagem');
+      navigation.navigate('Listagem');
     } catch (error) {
       console.log(error);
       Alert.alert('Não foi possível salvar os dados');
@@ -150,6 +150,7 @@ export const Register: React.FC = () => {
             </TransactionsTypes>
 
             <CategorySelectButton
+              testID="category-select"
               onPress={handleOpenCategoryModal}
               title={category.name}
             />
@@ -158,7 +159,11 @@ export const Register: React.FC = () => {
           <Button onPress={handleSubmit(handleRegister)} title="Enviar" />
         </Form>
 
-        <Modal animationType="slide" visible={categoryModalOpen}>
+        <Modal
+          testID="modal-category"
+          animationType="slide"
+          visible={categoryModalOpen}
+        >
           <CategorySelect
             category={category}
             setCategory={setCategory}

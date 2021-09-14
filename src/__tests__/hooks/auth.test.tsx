@@ -41,4 +41,31 @@ describe('Auth Hook', () => {
 
     expect(result.current.user.email).toBe('thiago.silva@gmail.com');
   });
+
+  it('user should not connect cancel authentication with Google', async () => {
+    const googleMocked = mocked(startAsync as any);
+    googleMocked.mockReturnValueOnce({
+      type: 'cancel',
+    });
+
+    const { result } = renderHook(() => useAuth(), {
+      wrapper: Providers,
+    });
+
+    await act(() => result.current.signInWithGoogle());
+
+    expect(result.current.user).not.toHaveProperty('id');
+  });
+
+  it('should be error with Google authentication', async () => {
+    const { result } = renderHook(() => useAuth(), {
+      wrapper: Providers,
+    });
+
+    try {
+      await act(() => result.current.signInWithGoogle());
+    } catch (error) {
+      expect(result.current.user).toEqual({});
+    }
+  });
 });
