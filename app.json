@@ -16,9 +16,11 @@
     "android": {
       "icon": "./assets/icon.png",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon"
+        "foregroundImage": "./assets/adaptive-icon.png"
       }
-    }
+    },
+    "description": "",
+    "githubUrl": "https://github.com/th1ag0-Zz/gofinances"
   },
   "name": "gofinances"
 }
